@@ -61,7 +61,7 @@
     export type EdgeData = { 
         label: string;
         note: string;
-        userId: string;
+        userID: string;
     };
     
     export type EditContext =
@@ -70,8 +70,13 @@
         | { kind: null };
 
     export type AppEdge = Edge<EdgeData, 'EditEdge'> & {data: EdgeData}
+    export type AuthState = {
+        isAuthenticated: boolean,
+        setIsAuthenticated: (isAuth: boolean) => void,
+        token: string,
+        setToken: (token: string) => void,
+    };
     export type AppState = {
-        userId: string,
         nodes: AppNode[];
         edges: AppEdge[];
         isNodeEditing: string[];
@@ -93,8 +98,8 @@
         deleteEdge: (edgeId: string[]) => void;
         setVisibleNote: (note: string)=>void, 
         visibleNote: string,
+        userId: string,
         setUserID: (userId: string) => void,
-
     };
 
     export interface ResizeNodeProps extends NodeProps<AppNode> {
@@ -124,4 +129,4 @@
     }
 
     export type RawNode = { id: string, uuid: string, type: string, position_x: number, position_y: number, label: string, note: string, style_height: number, style_width: string, user_id: string };
-    export type RawEdge = { id: string, source: string, target: string, note: string, type: string, userId: string };
+    export type RawEdge = { id: string, source: string, target: string, note: string, type: string, userID: string };

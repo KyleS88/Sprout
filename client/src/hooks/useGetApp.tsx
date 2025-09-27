@@ -5,6 +5,8 @@ import { useCallback } from "react";
 const useGetApp = () => {
     const { setNodes, setEdges, userID } = useDataMap();
     const startUp = useCallback(() => {
+        console.log({userID})
+        if (!userID) return;
         axios.get(`${apiUrl}user/edges/${userID}`).then((res) => {
             const rawEdgeData: RawEdge[] = res.data.edges;
             const formatedEdges: AppEdge[] = rawEdgeData.map((rawEdge: RawEdge) => (
@@ -16,10 +18,11 @@ const useGetApp = () => {
                     data: {
                         label: "Edit Note",
                         note: String(rawEdge.note),
-                        userId: String(rawEdge.userId),
+                        userID: String(rawEdge.userID),
                     },
                 }
             ));
+            console.table(formatedEdges[0])
             setEdges(formatedEdges);
         });
         axios.get(`${apiUrl}user/nodes/${userID}`).then((res) => {
@@ -45,6 +48,8 @@ const useGetApp = () => {
             ));
             setNodes(formatedNodes);
         })
+        console.log("end")
+
 }, [setEdges, setNodes, userID])
   return {
     startUp,

@@ -1,7 +1,6 @@
 import { create } from 'zustand';
 import { addEdge, applyNodeChanges, applyEdgeChanges, type EdgeChange, type NodeChange, type Connection } from '@xyflow/react';
 import { type AppState, type AppNode, type AppEdge, type EditContext} from '../types/types';
-import type { AxiosResponse } from 'axios';
 import axios from 'axios';
 
 const useStore = create<AppState>((set, get) => ({
@@ -24,16 +23,22 @@ const useStore = create<AppState>((set, get) => ({
         });
     },
     onConnect: async (params: Connection) => {
-        const newEdge: AppEdge = {
+        try {
+          const newEdge: AppEdge = {
             ...params,
             id: `${params.source}|${params.target}`,
             type: 'EditEdge',
-            data: {label: "Edit Note", note: "", userId: get().userId},
-        };
-        const returnData: AxiosResponse = await axios.post("http://localhost:5174/api/user/edges", {edges: [newEdge]})
-        set({
-            edges: addEdge<AppEdge>(newEdge, get().edges) 
-        });
+            data: {label: "Edit Note", note: "", userID: get().userId},
+            };
+            await axios.post("http://localhost:5174/api/user/edges", {edges: [newEdge]})
+            set({
+                edges: addEdge<AppEdge>(newEdge, get().edges) 
+            });  
+        } catch (err: unknown) {
+            if (err instanceof Error)
+                console.error(err);
+        }
+        
     },
     setNodes: (updater) => {
         if (typeof updater === 'function') {

@@ -27,7 +27,7 @@ router.get("/", async (req: Request, res: Response) => {
 router.get("/:userId", async (req: Request, res: Response) => {
     const userId: string = String(req.params.userId);
     try {
-        const sql: string = "SELECT * FROM edges WHERE user_id=$1;"
+        const sql: string = "SELECT edge_id as id, source, target, note, type, user_id as userID FROM edges WHERE user_id=$1;"
         const result = await pool.query(sql, [userId]);
         return res.status(200).json({message: `Succesfully retrieved all edges for user: ${userId}`, edges: result.rows});
     } catch (err: any) {

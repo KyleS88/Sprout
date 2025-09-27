@@ -2,12 +2,13 @@ import '../styles/MapEditor.css'
 import { type MySidebarProps } from '../types/types'
 import { useDataMap} from '../hooks/useMapData'
 import axios, {type AxiosResponse} from 'axios'
-import { useCallback, useEffect, useRef, useState} from 'react'
+import { useCallback, useEffect} from 'react'
 import useDebounce from '../hooks/useDebounce'
+import useAuthData from '../hooks/useAuthData'
 
 const MapSidebar: React.FC<MySidebarProps> = (props) => {
-    const { editNoteRef, setVisibleNote, visibleNote, setEditContext, handleFocusInput, deleteEdge, setIsEdgeEditing, editContext, setIsNodeEditing, isNodeEditing, deleteNode, handleUpdateNodeNote, handleUpdateEdgeNote, currentNode, setNote, isEdgeEditing, edges} = useDataMap();
-
+    const { setUserID, editNoteRef, setVisibleNote, visibleNote, setEditContext, handleFocusInput, deleteEdge, setIsEdgeEditing, editContext, setIsNodeEditing, isNodeEditing, deleteNode, handleUpdateNodeNote, handleUpdateEdgeNote, currentNode, setNote, isEdgeEditing, edges} = useDataMap();
+    const { setIsAuthenticated, setToken } = useAuthData();
     useEffect(() => {
         switch (editContext.kind) {
             case 'node':
@@ -79,12 +80,19 @@ const MapSidebar: React.FC<MySidebarProps> = (props) => {
     //     };
     //     setLocalNote(e.target.value);
     // };
+    const handleSignout = () => {
+        localStorage.removeItem("token")
+        setUserID("");
+        setIsAuthenticated(false);
+        setToken("");
+    }
   return (
     <div className='rf-ui'>
             {/* edit the handleEditNotes to update the data in client with corresponding data in backend */}
             <button id='rf-add-term-btn' onClick={props.handleAddTerm}>Add Term</button>
             <button id='rf-select-all' onClick={props.handleSelectAll}>Select All</button>
             <button id='rf-remove-btn' onClick={handleRemoveCurrent}>Remove</button>
+            <button id="logout" onClick={handleSignout}>Logout</button>
             <textarea name="note" id="note" className="note" value={isEdgeEditing.length>0 || isNodeEditing.length > 0? visibleNote: ''} placeholder='Enter your note for the node or connection here' ref={editNoteRef} readOnly={editContext.kind === null} onChange={(e) => handleInputChange(e)}></textarea>
             <button id='rf-edit-notes' onClick={(e)=>(editContext.kind?props.handleEditNotes(editContext.id): null, e.preventDefault())}>Expand Note</button>
     </div>  )

@@ -6,10 +6,10 @@ interface ProtectRouterProps {
 }
 
 const ProctectedRouter: React.FC<ProtectRouterProps> = ({ children, isAuthenticated }) => {
+    console.log(isAuthenticated)
     if (!isAuthenticated) {
-
         return <Navigate to="/login" />
-    }
+    };
     return children;
 }
 

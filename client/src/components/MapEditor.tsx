@@ -5,28 +5,22 @@ import MapCanvas from './MapCanvas';
 import MapSidebar from './MapSidebar';
 import { type MapEditorProps} from '../types/types';
 import { useDataMap } from '../hooks/useMapData';
-import { useNavigate } from 'react-router-dom';
 import useGetApp from '../hooks/useGetApp';
 const MapEditor: React.FC<MapEditorProps> = ({ setIsEditNote }) => {
     const { startUp } = useGetApp();
-    const navigate = useNavigate();
     //Functions and variables from map hook
     const { userID, handleEdgeClick, onNodesDelete, handleSelectAll, handleUnselect, handleNodeClick, handlePaneClick, handleAddTerm, nodeTypes, currTerm, setCurrTerm, nodes, edges, onNodesChange, onEdgesChange, onConnect, edgeTypes } = useDataMap();
     console.log(userID)
     //handle get nodes and edges on startup
     useEffect(()=>{
-        if (!userID) {
-            navigate('/register');
-        } else {
-            startUp();
-        }
-    }, [userID, navigate, startUp])
+        startUp();
+    }, [startUp])
     
     const handleEditNotes = useCallback((id: string) => {
         if (id === null) return;
         setIsEditNote((prev: boolean) => !prev)
         }, [setIsEditNote]
-    )
+    );
   
     return (
     <div className='map-editor'>      

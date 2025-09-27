@@ -10,10 +10,10 @@ import { apiUrl } from './hooks/useMapData';
 import axios, { type AxiosResponse } from 'axios';
 import ProctectedRouter from './components/AuthComponent/ProctectedRouter';
 import { useDataMap } from './hooks/useMapData';
+import useAuthData from './hooks/useAuthData';
 
 const App: React.FC = () => {
-  const [token, setToken] = useState<string | null>(()=>localStorage.getItem("token"))
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const { token, setToken, setIsAuthenticated, isAuthenticated } = useAuthData();
   const [isLoading, setIsLoading] = useState(true);
   const { setUserID } = useDataMap();
   const navigate = useNavigate();
@@ -25,10 +25,12 @@ const App: React.FC = () => {
     if (token) {
       validateToken(token)
         .then((data)=>{
+          console.log("trying to auth")
           setIsAuthenticated(true);
           setIsLoading(false);
-          setUserID(data.id)
+          setUserID(data.userID)
           navigate("/validated")
+          console.log(data.userID)
         })
       .catch((err) => {
         console.log(err)
@@ -40,7 +42,7 @@ const App: React.FC = () => {
     setIsAuthenticated(false);
     setIsLoading(false);
     console.log("no token")
-  }}, [token, validateToken, navigate, setUserID]);
+  }}, [token, validateToken, navigate, setUserID, setIsAuthenticated]);
 
   return (
   <div>

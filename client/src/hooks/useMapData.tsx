@@ -8,7 +8,7 @@ import {
 } from '@xyflow/react';
 import useStore from '../store/mapStore';
 import { v4 as uuidv4 } from 'uuid';
-import { type AppNode, type ResizeNodeProps, type AppEdge, type AppState, type EditContext} from '../types/types';
+import { type AppNode, type ResizeNodeProps, type AppEdge,  type EditContext} from '../types/types';
 import axios, { type AxiosResponse } from 'axios';
 import ResizeNode from '../components/ReactFlowComponents/ResizeNode';
 import EditEdge from '../components/ReactFlowComponents/EditEdge';

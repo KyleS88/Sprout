@@ -1,18 +1,20 @@
-import type {  EditEdgeProps } from "../../types/types";
+import type {  AppNode, EditEdgeProps } from "../../types/types";
 import {
   getBezierPath,
   EdgeLabelRenderer,
   useInternalNode,
+  type InternalNode,
 } from '@xyflow/react';
-import {getEdgeParams} from "../../hooks/utills";
+import { getEdgeParams } from "../../hooks/utills";
 import { memo } from "react";
 import "../../styles/MapEditor.css"
+import { useDataMap } from "../../hooks/useMapData";
 // type SpecialPath = { p: string; cx: number; cy: number };
 const EditEdge = ({ id, source, target, markerEnd, style }: EditEdgeProps) => {
 
-    const sourceNode = useInternalNode(source);
-    const targetNode = useInternalNode(target);
-    
+    const sourceNode: InternalNode<AppNode> | undefined = useInternalNode(source);
+    const targetNode: InternalNode<AppNode> | undefined = useInternalNode(target);
+    const { setEditContext } = useDataMap();
     if (!sourceNode || !targetNode) {
         return null;
     }
@@ -51,7 +53,7 @@ const EditEdge = ({ id, source, target, markerEnd, style }: EditEdgeProps) => {
                 zIndex: 1,
           }}
                 >
-                    <button className="button-edge__button">
+                    <button className="button-edge__button" onClick={ ()=>setEditContext({kind: 'edge', id}) }>
                         Edit Note
                     </button>
                 </div>
