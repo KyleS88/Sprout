@@ -1,7 +1,9 @@
 import { create } from 'zustand';
 import type { AuthState } from '../types/types';
-
-const authStore = create<AuthState>((set, get) => ({
+/**
+ * Zustand store for authentication
+ */
+const authStore = create<AuthState>((set) => ({
     isAuthenticated: false,
     setIsAuthenticated: (isAuth: boolean) => {
         set({isAuthenticated: isAuth})

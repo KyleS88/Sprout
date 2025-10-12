@@ -8,7 +8,7 @@ interface Edge {
     id: string,
     source: string, 
     target: {x: number, y: number },
-    data: {label: string, note: string, userId: string},
+    data: {label: string, note: string, userID: string},
     type: string
 }
 router.use("/note", EdgeNoteRouter);
@@ -47,7 +47,7 @@ router.post("/", async (req: Request, res: Response) => {
             if (!id || !source || !target || typeof data.label !== "string") throw new Error("Each edge much have an id, label, target, and source");
             const sql: string = "INSERT INTO edges(edge_id, note, source, target, type, user_id) VALUES($1, $2, $3, $4, $5, $6) RETURNING *;";
             console.log("querying")
-            const result = await client.query(sql, [id, data.note, source, target, type, data.userId]);
+            const result = await client.query(sql, [id, data.note, source, target, type, data.userID]);
             console.log("complete")
             createdEdges.push(result.rows[0]);
         }

@@ -65,7 +65,7 @@ const RegisterPage: React.FC = () => {
             <Container> 
                 <Row className="justify-content-center">
                     <Col md={8} lg={6}>
-                        <Card>
+                        <Card className="auth-card">
                             <Card.Header as="h3" className="text-center">Register</Card.Header> 
                             <Card.Body>
                                 <Form>
@@ -87,7 +87,7 @@ const RegisterPage: React.FC = () => {
                                     </Form.Group>
                                     <Button className="btnFormSend justify-content-center" onClick={handleRegister}>Register</Button>
                                 </Form>
-                                <Card.Text className="text-center" >Already have an account? <Link to="/login">Login here.</Link></Card.Text>
+                                <Card.Text className="text-center" >Already have an account? <Link to="/login" style={{color: "white"}}>Login here.</Link></Card.Text>
                             </Card.Body>
                         </Card>
                     </Col>

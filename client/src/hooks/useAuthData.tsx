@@ -1,6 +1,13 @@
 import useAuth from "../store/authStore";
 
-const useAuthData = () => {
+type AuthData = {
+  setIsAuthenticated: (value: boolean) => void;
+  isAuthenticated: boolean;
+  setToken: (token: string) => void;
+  token: string | null;
+};
+
+const useAuthData = (): AuthData => {
     const setIsAuthenticated = useAuth((state)=>state.setIsAuthenticated);
     const isAuthenticated = useAuth((state)=>state.isAuthenticated);
     const setToken = useAuth((state)=>state.setToken);
@@ -10,7 +17,6 @@ const useAuthData = () => {
         isAuthenticated,
         setToken,
         token,
-
     }
 }
 export default useAuthData

@@ -10,6 +10,7 @@ import { type UserLogin, loginUser, isValidEmail } from "./service";
 import axios from "axios";
 import { Link, useNavigate  } from "react-router-dom";
 import { useDataMap } from "../../hooks/useMapData";
+import "../../styles/Auth.css"
 
 interface LoginPageProps {
     setIsAuthenticated: (isAuth: boolean) => void
@@ -58,7 +59,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsAuthenticated, setToken }) =
                 <Container>
                     <Row className="justify-content-center">
                         <Col md={8} lg={6}>
-                            <Card>
+                            <Card className="auth-card">
                                 <Card.Header as="h3" className="text-center">Login</Card.Header>
                                 <Card.Body>
                                     <Form>
@@ -72,7 +73,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsAuthenticated, setToken }) =
                                         </Form.Group>
                                     </Form>
                                     <Button onClick={handleLogin}>Login</Button>
-                                    <Card.Text className="text-center">Don't have an account? <Link to="/register">Register here.</Link></Card.Text>
+                                    <Card.Text className="text-center">Don't have an account? <Link to="/register" style={{color: "white"}}>Register here.</Link></Card.Text>
                                 </Card.Body>
                             </Card>
                         </Col>

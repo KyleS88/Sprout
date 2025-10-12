@@ -11,7 +11,12 @@ import axios, { type AxiosResponse } from 'axios';
 import ProctectedRouter from './components/AuthComponent/ProctectedRouter';
 import { useDataMap } from './hooks/useMapData';
 import useAuthData from './hooks/useAuthData';
-
+/**
+ * App root: bootstraps routing and auth.
+ * - Validates an existing JWT on mount
+ * - Gates protected routes behind isAuthenticated
+ * - Redirects to /validated on successful auth
+ */
 const App: React.FC = () => {
   const { token, setToken, setIsAuthenticated, isAuthenticated } = useAuthData();
   const [isLoading, setIsLoading] = useState(true);

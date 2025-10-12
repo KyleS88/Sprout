@@ -19,7 +19,7 @@ button {
 }
 
 #rf-add-term-btn, #rf-select-all, #rf-remove-btn {
-  height: 8vh;
+  /* height: 8vh; */
 }
 #notes-enlarged {
   display: flex;
@@ -60,8 +60,13 @@ button {
     background-color: #7d5ba6;
     color: white;
     gap: 10px;
+    border: purple;
 }
-
+#rf-tool-section {
+  padding: 20px;
+  background-color: #a586cb;
+  flex-direction: column;
+}
 .map-editor {
     display: grid;
     grid-template-columns: 82% 18%;

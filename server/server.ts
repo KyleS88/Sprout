@@ -7,7 +7,6 @@ import bodyParser from 'body-parser';
 const PORT = process.env.PORT || 5174;
 dotenv.config();
 import morgan from "morgan";
-import { Request, Response } from 'express';
 
 //Routers
 import UserRouter from './Routers/UserRouter'
@@ -26,10 +25,5 @@ app.listen(PORT, async (err) => {
     console.log(`Server is running on port: ${PORT}`);
     await connectDB();
 });
-
-// pool.connect((err, connection) => {
-//     if (err) throw err;
-//     console.log("Connected to connector database successfully");
-// })
 
 app.use("/api/user", UserRouter);

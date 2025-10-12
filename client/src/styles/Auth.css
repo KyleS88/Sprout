@@ -1,0 +1,8 @@
+.auth-card{
+  background: rgba(125,91,166,0.9);
+  backdrop-filter: blur(10px);
+  border: 0;
+  border-radius: 1rem;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.18);
+  color: white;
+}

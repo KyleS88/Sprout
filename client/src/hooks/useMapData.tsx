@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState, useRef, useEffect } from 'react';
+import { useCallback, useMemo, useState, useRef} from 'react';
 import {
     type OnNodesDelete,
     type OnConnect,
@@ -13,6 +13,40 @@ import axios, { type AxiosResponse } from 'axios';
 import ResizeNode from '../components/ReactFlowComponents/ResizeNode';
 import EditEdge from '../components/ReactFlowComponents/EditEdge';
 export const apiUrl: string = "http://localhost:5174/api/";
+
+/**
+ * useDataMap
+ * Central hook for React Flow data + UI interactions.
+ *
+ * Responsibilities:
+ * - Exposes nodes/edges state from the map store (Zustand) and mutators.
+ * - Coordinates React Flow handlers (onNodesChange/onEdgesChange/onConnect).
+ * - Performs side effects to the API (create/update/delete nodes/edges).
+ * - Manages selection/editing context for nodes/edges (editContext, is*Editing).
+ *
+ * Server contracts:
+ * - Requires a valid `userId` in the store for write ops.
+ * - Uses `${apiUrl}` endpoints:
+ *   - POST   user/nodes/                  (create)
+ *   - PATCH  user/nodes/                  (update size/label)
+ *   - PATCH  user/nodes/note/:nodeId/     (update node note)
+ *   - PATCH  user/edges/note/:edgeId/     (update edge note)
+ *   - DELETE user/nodes                   (bulk delete by ids)
+ *
+ * Error handling:
+ * - Network errors are caught and logged; state rolls forward optimistically.
+ * - `handleUpdateSize`/`handleUpdateNodeLabel` throw if id not found.
+ *
+ * Usage:
+ * const {
+ *   nodes, edges, nodeTypes, edgeTypes,
+ *   handleAddTerm, handleUpdateNodeLabel, handleUpdateSize,
+ *   handleUpdateNodeNote, handleUpdateEdgeNote,
+ *   onNodesChange, onEdgesChange, onConnect,
+ *   handleSelectAll, handleUnselect, handleNodeClick, handleEdgeClick, handlePaneClick,
+ *   currentNode, editContext, isNodeEditing, isEdgeEditing, userID
+ * } = useDataMap();
+ */
 
 export const useDataMap = () => {
     const userID: string = useStore((state)=>state.userId);
@@ -134,10 +168,10 @@ export const useDataMap = () => {
             console.log(`${nodeId} has succesfully been updated`);
             setCurrTerm(term);
         } catch (err: unknown) {
-            if (err.response) {
-                console.log(err.response.data.message);
-            } else if (err instanceof Error) {
-                console.error(err.message);
+            if (err instanceof Error) {
+                console.log(err.message);
+            } else if (err) {
+                console.error(err.response.data.message);
             }};
         }, [setNodes]);
     const handleUpdateNodeNote = async (nodeId: string | undefined, note: string) => {
@@ -271,6 +305,5 @@ export const useDataMap = () => {
         setVisibleNote,
         editNoteRef,
         setUserID,
-        
     };
 };
