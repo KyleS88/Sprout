@@ -1,7 +1,7 @@
 **Study App - A Concept Mapping Tool**
 A dynamic and interactive concept mapping application designed to help you build a personal **knowledge graph** for studying. Visualize and connect your ideas by creating, linking, and annotating concepts in a fluid, user-friendly interface. **Nodes** hold your concepts and terms, while **edges** represent the relationships that link them, allowing you to map out your ideas into a connected graph or tree.
 
-> Stack: PostgreSQL · Express · React · Node
+> Stack: PostgreSQL · Express · React · Node>
 **About The Project**
 This project is a full-stack web application that provides a digital canvas for users to create and manage concept maps. It's a powerful tool for studying, brainstorming, and organizing complex information. The front end is built with React and TypeScript, featuring a rich, interactive UI powered by React Flow. The back end is a robust Node.js and Express server, with a PostgreSQL database to persist user data.
 
