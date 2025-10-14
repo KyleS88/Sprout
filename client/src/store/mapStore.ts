@@ -30,7 +30,7 @@ const useStore = create<AppState>((set, get) => ({
             type: 'EditEdge',
             data: {label: "Edit Note", note: "", userID: get().userId},
             };
-            await axios.post("http://localhost:5174/api/user/edges", {edges: [newEdge]})
+            await axios.post("http://localhost:3000/api/user/edges", {edges: [newEdge]})
             set({
                 edges: addEdge<AppEdge>(newEdge, get().edges) 
             });  

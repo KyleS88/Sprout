@@ -1,6 +1,6 @@
 import axios, { type AxiosResponse } from "axios";
 
-const apiUrl: string = "http://localhost:5174/api/";
+const apiUrl: string = "http://localhost:3000/api/";
 export interface UserRegister {
     username: string,
     email: string,

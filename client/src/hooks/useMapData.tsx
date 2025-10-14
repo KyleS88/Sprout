@@ -12,7 +12,7 @@ import { type AppNode, type ResizeNodeProps, type AppEdge,  type EditContext} fr
 import axios, { type AxiosResponse } from 'axios';
 import ResizeNode from '../components/ReactFlowComponents/ResizeNode';
 import EditEdge from '../components/ReactFlowComponents/EditEdge';
-export const apiUrl: string = "http://localhost:5174/api/";
+export const apiUrl: string = "http://localhost:3000/api/";
 
 /**
  * useDataMap

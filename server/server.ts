@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import {connectDB} from './pool';
 const app = express();
 import bodyParser from 'body-parser';
-const PORT = process.env.PORT || 5174;
+const PORT = process.env.PORT || 3000;
 dotenv.config();
 import morgan from "morgan";
 
