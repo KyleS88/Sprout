@@ -27,7 +27,6 @@ import useAuthData from '../hooks/useAuthData'
  * - useAuthData exposes setIsAuthenticated/setToken
  */
 
-
 const MapSidebar: React.FC<MySidebarProps> = (props) => {
     const { setUserID, editNoteRef, setVisibleNote, visibleNote, setEditContext, handleFocusInput, deleteEdge, setIsEdgeEditing, editContext, setIsNodeEditing, isNodeEditing, deleteNode, handleUpdateNodeNote, handleUpdateEdgeNote, currentNode, setNote, isEdgeEditing, edges} = useDataMap();
     const { setIsAuthenticated, setToken } = useAuthData();
@@ -102,21 +101,41 @@ const MapSidebar: React.FC<MySidebarProps> = (props) => {
         setIsAuthenticated(false);
         setToken("");
     }
+    const addSymbol = <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="icon-plus">
+            <path d="M12 5v14M5 12h14"/>
+        </svg>
+    const trashSymbol = <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-trash">
+            <path d="M3 6h18"/>
+            <path d="M19 6l-1 14H6L5 6"/>
+            <path d="M9 6V4h6v2"/>
+            <path d="M10 11v6M14 11v6"/>
+        </svg>
+    const logoutSymbol = <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-logout">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+        <path d="M16 17l5-5-5-5"/>
+        <path d="M21 12H9"/>
+    </svg>
+
+
   return (
-    <div className='rf-ui'>
-        <h2 className='rf-tools-title'>Tools</h2>
-        <div id="rf-tool-section">
-            {/* edit the handleEditNotes to update the data in client with corresponding data in backend */}
-            <button id='rf-add-term-btn' onClick={props.handleAddTerm}>Add Term</button>
-            <button id='rf-select-all' onClick={props.handleSelectAll}>Select All</button>
-            <button id='rf-remove-btn' onClick={handleRemoveCurrent}>Remove</button>
-            <button id="logout" onClick={handleSignout}>Logout</button>
-        </div>
-        <div id="rf-notes-section">
-            <textarea name="note" id="note" className="note" value={isEdgeEditing.length>0 || isNodeEditing.length > 0? visibleNote: ''} placeholder='Enter your note for the node or connection here' ref={editNoteRef} readOnly={editContext.kind === null} onChange={(e) => handleInputChange(e)}></textarea>
-            <button id='rf-edit-notes' onClick={(e)=>(editContext.kind?props.handleEditNotes(editContext.id): null, e.preventDefault())}>Expand Note</button>
-        </div>
-    </div>  )
+     <div className='rf-sidebar-border'>
+        <h2 id='rf-tools-title'>Tools</h2>
+        <div className='rf-ui'>
+            <div id="rf-tool-section">
+                {/* edit the handleEditNotes to update the data in client with corresponding data in backend */}
+                <button id='rf-add-term-btn' onClick={props.handleAddTerm}>{addSymbol} Add Term</button>
+                <button id='rf-select-all' onClick={props.handleSelectAll}>&#9776; Select All</button>
+                <button id='rf-remove-btn' onClick={handleRemoveCurrent}>{trashSymbol} Remove</button>
+                <button id="logout" onClick={handleSignout}> {logoutSymbol} Logout</button>
+            </div>
+            <div id="rf-notes-section">
+                <h4>Note</h4>
+                <textarea name="note" id="note" className="note" value={isEdgeEditing.length>0 || isNodeEditing.length > 0? visibleNote: ''} placeholder='Enter your note for the node or connection here' ref={editNoteRef} readOnly={editContext.kind === null} onChange={(e) => handleInputChange(e)}></textarea>
+                <button id='rf-edit-notes' onClick={(e)=>(editContext.kind?props.handleEditNotes(editContext.id): null, e.preventDefault())}>Expand Note</button>
+            </div>
+        </div>  
+    </div>
+    )
 }
 
 export default MapSidebar

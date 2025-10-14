@@ -18,8 +18,24 @@ button {
   cursor: pointer;
 }
 
-#rf-add-term-btn, #rf-select-all, #rf-remove-btn {
-  /* height: 8vh; */
+#rf-add-term-btn, #rf-select-all, #rf-remove-btn, #logout {
+  flex: 1 1 calc(50% - 6px);
+  border-radius: 7px;
+  padding: 3px;
+  width: 6lh;
+  height: 4vh;
+}
+#rf-add-term-btn {
+  background-color: #6d4e93;
+  color: white;
+}
+#rf-add-term-btn:hover, #rf-select-all:hover, #rf-remove-btn:hover{
+  opacity: 80%;
+}
+#logout:hover {
+  background-color: rgb(245, 24, 24);
+  color: white;
+  opacity: 70%;
 }
 #notes-enlarged {
   display: flex;
@@ -54,18 +70,55 @@ button {
   justify-content: center;
   align-items: center;
 }
-.rf-ui {
-    display: flex;
-    flex-direction: column;
-    background-color: #7d5ba6;
-    color: white;
-    gap: 10px;
-    border: purple;
+.rf-sidebar-border {
+  background-color: #7752a3;
+  border-radius: 10px 10px 0 0;
+  padding: 10px;
 }
-#rf-tool-section {
-  padding: 20px;
-  background-color: #a586cb;
+
+#rf-tools-title {
+  display: flex;
+  background-color: #6d4e93;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 8px 14px;
+  border-radius: 8px 8px 0 0; 
+  justify-content: center;
+  height: 7vh;
+  align-items: center;
+}
+
+.rf-ui {
+  display: flex;
   flex-direction: column;
+  gap: 10px;
+  background-color: white;
+  border-radius: 0 0 10px 10px; 
+} 
+#rf-tool-section {
+  padding: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+#rf-notes-section > h4{
+  margin-left: .8lh;
+  font-size: 2.5ch;
+  font-weight: 700;
+}
+#rf-edit-notes {
+  display: flex;
+  margin: 0 auto;
+  width: 80%;
+  height: 8%;
+  font-size: 3ch;
+  justify-content: center;
+  align-items: center;
+  margin: 3vh auto;
+  border-radius: 7px;
+  background-color: #0D6EFD;
+  color: white;
 }
 .map-editor {
     display: grid;
@@ -138,29 +191,23 @@ button {
 }
 
 .note {
-    margin-top: 18vh;
-    width: 100%;
-    height: 46vh;
-    padding: 6px 8px;
-    box-sizing: border-box;
-    background: #fff;
-    font: inherit;
-    line-height: 1.2;
-    resize: none;
-    outline: none;
-    overflow-y: auto;
-    overflow-x: hidden;
-    border: 1px solid black;
-}
-
-#rf-edit-notes {
-    display: flex;
-    margin: 0 auto;
-    width: 60%;
-    height: 6.5%;
-    font-size: 3ch;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  width: 90%;
+  height: 52vh;
+  padding: 6px 8px;
+  box-sizing: border-box;
+  background: #fff;
+  font: inherit;
+  line-height: 1.2;
+  resize: none;
+  outline: none;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border: 1px solid black;
+  justify-content: center;
+  margin: 0 auto;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 .simple-floatingedges {
