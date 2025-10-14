@@ -23,19 +23,20 @@ const useStore = create<AppState>((set, get) => ({
         });
     },
     onConnect: async (params: Connection) => {
-        console.log("stuff")
         try {
-          const newEdge: AppEdge = {
-            ...params,
-            id: `${params.source}|${params.target}`,
-            type: 'EditEdge',
-            data: {label: "Edit Note", note: "", userID: get().userId},
-            };
-            console.log(newEdge.id)
-            await axios.post("http://localhost:3000/api/user/edges", {edges: [newEdge]})
-            set({
-                edges: addEdge<AppEdge>(newEdge, get().edges) 
-            });  
+            const isIdExist: boolean = get().edges.some(edge=>edge.id == `${params.source}|${params.target}`);
+            if (isIdExist) 
+                throw Error("This edge already exist");
+            const newEdge: AppEdge = {
+                ...params,
+                id: `${params.source}|${params.target}`,
+                type: 'EditEdge',
+                data: {label: "Edit Note", note: "", userID: get().userId},
+                };
+                await axios.post("http://localhost:3000/api/user/edges", {edges: [newEdge]})
+                set({
+                    edges: addEdge<AppEdge>(newEdge, get().edges) 
+                });  
         } catch (err: unknown) {
             if (err instanceof Error)
                 console.error(err);
