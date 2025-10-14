@@ -23,6 +23,7 @@ const useStore = create<AppState>((set, get) => ({
         });
     },
     onConnect: async (params: Connection) => {
+        console.log("stuff")
         try {
           const newEdge: AppEdge = {
             ...params,
@@ -30,6 +31,7 @@ const useStore = create<AppState>((set, get) => ({
             type: 'EditEdge',
             data: {label: "Edit Note", note: "", userID: get().userId},
             };
+            console.log(newEdge.id)
             await axios.post("http://localhost:3000/api/user/edges", {edges: [newEdge]})
             set({
                 edges: addEdge<AppEdge>(newEdge, get().edges) 
@@ -122,9 +124,10 @@ const useStore = create<AppState>((set, get) => ({
     },
     deleteEdge: (edgeIdArray: string[]) => {
         const splitIdArray: string[] = edgeIdArray.flatMap((edgeId) => edgeId.split('|'));
+        console.log(splitIdArray)
         set((state): Partial<AppState> => ({
             edges: state.edges.filter((edge) => 
-                !splitIdArray.includes(edge.source) && !splitIdArray.includes(edge.target)
+                (!splitIdArray.includes(edge.source) || !splitIdArray.includes(edge.target))
             )
         }));
     },    
