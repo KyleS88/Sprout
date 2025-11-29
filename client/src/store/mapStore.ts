@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { addEdge, applyNodeChanges, applyEdgeChanges, type EdgeChange, type NodeChange, type Connection } from '@xyflow/react';
 import { type AppState, type AppNode, type AppEdge, type EditContext} from '../types/types';
 import axios from 'axios';
+export const apiUrl: string = import.meta.env.VITE_API_URL || "http://localhost:3000/api/";
 
 const useStore = create<AppState>((set, get) => ({
     userId: "",
@@ -33,7 +34,7 @@ const useStore = create<AppState>((set, get) => ({
                 type: 'EditEdge',
                 data: {label: "Edit Note", note: "", userID: get().userId},
                 };
-                await axios.post("http://localhost:3000/api/user/edges", {edges: [newEdge]})
+                await axios.post(`${apiUrl}user/edges`, {edges: [newEdge]})
                 set({
                     edges: addEdge<AppEdge>(newEdge, get().edges) 
                 });  
