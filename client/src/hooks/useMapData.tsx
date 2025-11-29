@@ -5,10 +5,11 @@ import {
     type OnEdgesChange,
     type OnNodesChange,
     type Node,
+    type NodeProps,
 } from '@xyflow/react';
 import useStore from '../store/mapStore';
 import { v4 as uuidv4 } from 'uuid';
-import { type AppNode, type ResizeNodeProps, type AppEdge,  type EditContext} from '../types/types';
+import { type AppNode, type AppEdge,  type EditContext} from '../types/types';
 import axios, { type AxiosResponse } from 'axios';
 import ResizeNode from '../components/ReactFlowComponents/ResizeNode';
 import EditEdge from '../components/ReactFlowComponents/EditEdge';
@@ -83,8 +84,6 @@ export const useDataMap = () => {
         } catch (err) {
             if (err instanceof Error) {
                 console.error(err);
-            } else {
-                console.error(err.response.status, err.response.data);
             }
         }
         
@@ -141,7 +140,7 @@ export const useDataMap = () => {
             if (err instanceof Error) {
                 console.log(err.message);
             } else if (err) {
-                console.error(err.response.data.message);
+                console.error(err);
             }};
         }, [setNodes]);
     const handleUpdateNodeNote = async (nodeId: string | undefined, note: string) => {
@@ -181,7 +180,7 @@ export const useDataMap = () => {
         };
     };
     const nodeTypes = useMemo(() => ({
-        ResizeNode: (nodeProp: ResizeNodeProps) =>
+        ResizeNode: (nodeProp: NodeProps<AppNode>) =>
             <ResizeNode {...nodeProp} handleUpdateNodeLabel={handleUpdateNodeLabel} />
         }), 
         [handleUpdateNodeLabel]
