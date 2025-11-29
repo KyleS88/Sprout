@@ -16,7 +16,7 @@ router.get("/", async (req: Request, res: Response) => {
 router.get("/:nodeid", async (req: Request, res: Response) => {
     try {
         const nodeid: string = String(req.params.nodeid);
-        const sql: string = "SELECT uuid, note FROM nodes WHERE uuid=$1;";
+        const sql: string = "SELECT uuid, note FROM connector.nodes WHERE uuid=$1;";
         const result = await pool.query(sql, [nodeid]);
         return res.status(200).json(result.rows[0]);
     } catch (err: any) {
@@ -28,7 +28,7 @@ router.get("/:nodeid", async (req: Request, res: Response) => {
 router.patch("/:nodeId", async (req: Request, res: Response) => {
     try {
         const nodeId: string = String(req.params.nodeId);
-        const sql: string = "UPDATE nodes SET note=$1 WHERE uuid=$2;";
+        const sql: string = "UPDATE connector.nodes SET note=$1 WHERE uuid=$2;";
         const result = await pool.query(sql, [req.body.note, nodeId]);
         return res.status(200).send(`Successfully updated the note for node: ${nodeId}`);
     } catch (err: any) {

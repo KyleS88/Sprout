@@ -15,7 +15,7 @@ router.use("/note", EdgeNoteRouter);
 // Get all edges in an array of edge objects
 router.get("/", async (req: Request, res: Response) => {
     try {
-        const sql: string = "SELECT edge_id as id, type, source, target, note, user_id as userId FROM edges;";
+        const sql: string = "SELECT edge_id as id, type, source, target, note, user_id as userId FROM connector.edges;";
         const result = await pool.query(sql);
         return res.status(200).json(result.rows);
     } catch(err: any) {
@@ -27,7 +27,7 @@ router.get("/", async (req: Request, res: Response) => {
 router.get("/:userId", async (req: Request, res: Response) => {
     const userId: string = String(req.params.userId);
     try {
-        const sql: string = "SELECT edge_id as id, source, target, note, type, user_id as userID FROM edges WHERE user_id=$1;"
+        const sql: string = "SELECT edge_id as id, source, target, note, type, user_id as userID FROM connector.edges WHERE user_id=$1;"
         const result = await pool.query(sql, [userId]);
         return res.status(200).json({message: `Succesfully retrieved all edges for user: ${userId}`, edges: result.rows});
     } catch (err: any) {
@@ -45,7 +45,7 @@ router.post("/", async (req: Request, res: Response) => {
         await client.query('BEGIN');
         for (const { source, target, data, id, type } of edgesArray) {
             if (!id || !source || !target || typeof data.label !== "string") throw new Error("Each edge much have an id, label, target, and source");
-            const sql: string = "INSERT INTO edges(edge_id, note, source, target, type, user_id) VALUES($1, $2, $3, $4, $5, $6) RETURNING *;";
+            const sql: string = "INSERT INTO connector.edges(edge_id, note, source, target, type, user_id) VALUES($1, $2, $3, $4, $5, $6) RETURNING *;";
             console.log("querying")
             const result = await client.query(sql, [id, data.note, source, target, type, data.userID]);
             console.log("complete")
@@ -71,7 +71,7 @@ router.patch("/", async (req: Request, res: Response) => {
         await client.query('BEGIN');
         for (const { data, id, source, target, type } of edgesArray) {
             if (!id) throw new Error("Each edge much have an id, label, target, and source");
-            const sql: string = "UPDATE edges SET note=$1, source=$2, target=$3, type=$4 WHERE edge_id=$5 RETURNING *;";
+            const sql: string = "UPDATE connector.edges SET note=$1, source=$2, target=$3, type=$4 WHERE edge_id=$5 RETURNING *;";
             const result = await client.query(sql, [data.note, source, target, type, id]);
             updatedEdges.push(result.rows[0]);
         }
@@ -88,7 +88,7 @@ router.patch("/", async (req: Request, res: Response) => {
 // delete all edges from database
 router.delete("/all", async (req: Request, res: Response) => {
     try {
-        const sql: string = "DELETE FROM edges RETURNING *;";
+        const sql: string = "DELETE FROM connector.edges RETURNING *;";
         const result = await pool.query(sql);
         return res.status(200).json({ message: "Successfully deleted all edges from database", edges: result.rows});
     } catch (err: any) {
@@ -105,7 +105,7 @@ router.delete("/", async (req: Request, res: Response) => {
         await client.query('BEGIN');
         for (const id of idArray) {
             const [sId, tId]: string[] = id.split('|');
-            const sql: string = "DELETE FROM edges WHERE (source=$1 AND target=$2) OR (source=$2 AND target=$1) RETURNING *;"
+            const sql: string = "DELETE FROM connector.edges WHERE (source=$1 AND target=$2) OR (source=$2 AND target=$1) RETURNING *;"
             const result = await client.query(sql, [sId, tId]);
             deletedEdges.push(result.rows[0]);
         }
