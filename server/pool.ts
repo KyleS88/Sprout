@@ -4,11 +4,13 @@ import fs from 'fs';
 import path from 'path';
 
 export const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
     user: String(process.env.DB_USER),
     password: String(process.env.DB_PASSWORD),
     host: String(process.env.DB_HOST),
     database: String(process.env.DB_DATABASE),
     port: parseInt(process.env.DB_PORT || '5432'),
+    ssl: process.env.DATABASE_URL ? { rejectUnauthorized: false}: undefined,
 });
 
 const connectorSchemaFilePath = path.resolve(__dirname, "./src/schema/connector.schema.sql");

@@ -12,41 +12,7 @@ import { type AppNode, type ResizeNodeProps, type AppEdge,  type EditContext} fr
 import axios, { type AxiosResponse } from 'axios';
 import ResizeNode from '../components/ReactFlowComponents/ResizeNode';
 import EditEdge from '../components/ReactFlowComponents/EditEdge';
-export const apiUrl: string = "http://localhost:3000/api/";
-
-/**
- * useDataMap
- * Central hook for React Flow data + UI interactions.
- *
- * Responsibilities:
- * - Exposes nodes/edges state from the map store (Zustand) and mutators.
- * - Coordinates React Flow handlers (onNodesChange/onEdgesChange/onConnect).
- * - Performs side effects to the API (create/update/delete nodes/edges).
- * - Manages selection/editing context for nodes/edges (editContext, is*Editing).
- *
- * Server contracts:
- * - Requires a valid `userId` in the store for write ops.
- * - Uses `${apiUrl}` endpoints:
- *   - POST   user/nodes/                  (create)
- *   - PATCH  user/nodes/                  (update size/label)
- *   - PATCH  user/nodes/note/:nodeId/     (update node note)
- *   - PATCH  user/edges/note/:edgeId/     (update edge note)
- *   - DELETE user/nodes                   (bulk delete by ids)
- *
- * Error handling:
- * - Network errors are caught and logged; state rolls forward optimistically.
- * - `handleUpdateSize`/`handleUpdateNodeLabel` throw if id not found.
- *
- * Usage:
- * const {
- *   nodes, edges, nodeTypes, edgeTypes,
- *   handleAddTerm, handleUpdateNodeLabel, handleUpdateSize,
- *   handleUpdateNodeNote, handleUpdateEdgeNote,
- *   onNodesChange, onEdgesChange, onConnect,
- *   handleSelectAll, handleUnselect, handleNodeClick, handleEdgeClick, handlePaneClick,
- *   currentNode, editContext, isNodeEditing, isEdgeEditing, userID
- * } = useDataMap();
- */
+export const apiUrl: string = import.meta.env.VITE_API_URL || "http://localhost:3000/api/";
 
 export const useDataMap = () => {
     const userID: string = useStore((state)=>state.userId);
@@ -115,7 +81,11 @@ export const useDataMap = () => {
             console.log("complete")
 
         } catch (err) {
-            console.log(err.response.status, err.response.data);
+            if (err instanceof Error) {
+                console.error(err);
+            } else {
+                console.error(err.response.status, err.response.data);
+            }
         }
         
     };
@@ -163,7 +133,7 @@ export const useDataMap = () => {
                     });
                 };
             });
-            const res: AxiosResponse = await axios.patch(`${apiUrl}user/nodes/`, { nodes: patchArray} );
+            await axios.patch(`${apiUrl}user/nodes/`, { nodes: patchArray} );
             // add a throw error clause for res if its a status error to get rid of the unknown error below
             console.log(`${nodeId} has succesfully been updated`);
             setCurrTerm(term);
