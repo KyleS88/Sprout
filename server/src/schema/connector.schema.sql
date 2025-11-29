@@ -1,4 +1,4 @@
-CREATE SCHEMA connector;
+CREATE SCHEMA connector IF NOT EXISTS connector;
 
 CREATE TABLE IF NOT EXISTS connector.users (
     id SERIAL PRIMARY KEY,
