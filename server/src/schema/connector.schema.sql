@@ -1,5 +1,4 @@
 CREATE SCHEMA connector;
-GO
 
 CREATE TABLE IF NOT EXISTS connector.users (
     id SERIAL PRIMARY KEY,
@@ -8,28 +7,26 @@ CREATE TABLE IF NOT EXISTS connector.users (
     email VARCHAR(100) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL
 );
-GO
 
 CREATE TABLE IF NOT EXISTS connector.edges (
     id SERIAL PRIMARY KEY,
     edge_id VARCHAR(255) NOT NULL UNIQUE,
-    source VARCHAR(255) NOT NULL UNIQUE,
-    target VARCHAR(255) NOT NULL UNIQUE,
-    note text NOT NULL UNIQUE,
-    type VARCHAR(255) NOT NULL UNIQUE,
+    source VARCHAR(255) NOT NULL,
+    target VARCHAR(255) NOT NULL,
+    note text NOT NULL,
+    type VARCHAR(255) NOT NULL,
     user_id VARCHAR(255) NOT NULL UNIQUE,
 )
-GO
 
 CREATE TABLE IF NOT EXISTS connector.nodes (
     id SERIAL PRIMARY KEY,
     uuid UUID NOT NULL UNIQUE,
-    position_x DOUBLE PRECISION NOT NULL UNIQUE,
-    position_y DOUBLE PRECISION NOT NULL UNIQUE,
-    style_height DOUBLE PRECISION NOT NULL UNIQUE,
-    style_width DOUBLE PRECISION NOT NULL UNIQUE,
-    note text NOT NULL UNIQUE,
-    label text NOT NULL UNIQUE,
-    type VARCHAR(255) NOT NULL UNIQUE,
+    position_x DOUBLE PRECISION NOT NULL,
+    position_y DOUBLE PRECISION NOT NULL,
+    style_height DOUBLE PRECISION NOT NULL,
+    style_width DOUBLE PRECISION NOT NULL,
+    note text NOT NULL,
+    label text NOT NULL,
+    type VARCHAR(255) NOT NULL,
     user_id VARCHAR(255) NOT NULL UNIQUE,
 )
