@@ -26,4 +26,7 @@ app.listen(PORT, async (err) => {
     await connectDB();
 });
 
+app.get("/api/ping", (req, res) => {
+    res.status(200).send("ok");
+})
 app.use("/api/user", UserRouter);
